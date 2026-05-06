@@ -71,22 +71,28 @@ def release_exists(tag: str) -> bool:
 
 
 def create_release(tag: str, title: str, body: str, published_at: str | None) -> bool:
-    payload: dict = {
+    # Fields passed with --field are type-coerced by the gh CLI (booleans,
+    # numbers, etc.).  The GitHub API requires make_latest to be a *string*
+    # ("true", "false", or "legacy"), so it must be sent with --raw-field to
+    # prevent the gh CLI from converting "false" into a JSON boolean.
+    raw_fields: dict = {
+        "make_latest": "false",
+    }
+    typed_fields: dict = {
         "tag_name": tag,
         "name": title,
         "body": body,
-        # "false" (string) is what the GitHub API expects for make_latest.
-        # gh api --field passes lowercase "false" as JSON boolean false.
-        "make_latest": "false",
     }
     if published_at:
-        payload["published_at"] = published_at
+        typed_fields["published_at"] = published_at
 
-    # Build the gh api arguments (--field key=value pairs)
+    # Build the gh api arguments
     # The `{owner}/{repo}` placeholder is resolved automatically by the gh CLI
     # from the current repository's git remote configuration.
     cmd = ["gh", "api", "repos/{owner}/{repo}/releases", "--method", "POST"]
-    for key, value in payload.items():
+    for key, value in raw_fields.items():
+        cmd += ["--raw-field", f"{key}={value}"]
+    for key, value in typed_fields.items():
         cmd += ["--field", f"{key}={value}"]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
