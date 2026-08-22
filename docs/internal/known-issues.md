@@ -7,12 +7,11 @@ licensing decision rather than a documentation one.
 Ordered by severity. See [`docs/roadmap.md`](../roadmap.md) for the narrative version,
 which also covers deliberate non-goals.
 
-
 **4 open:** 3 medium, 1 low.
 
 ## 1. The Latest release pointer is stuck two months behind
 
-**Severity:** Medium  
+**Severity:** Medium
 **Where:** `scripts/track_releases.py` -> `create_release`, `raw_fields`
 
 **What:** Every release is created with `make_latest` set to the string `false`, unconditionally. GitHub therefore never moves the pointer when a newer release arrives. Checked against the live repository: `GET /releases/latest` returns Proxmox Virtual Environment 9.2, published 2026-05-21, while the newest release is Proxmox Mail Gateway 9.1 from 2026-07-29 -- and 24 releases exist in total.
@@ -25,7 +24,7 @@ The `make_latest=false` line is clearly deliberate -- there is a careful comment
 
 ## 2. Only one of the two announcement suffixes is stripped from tags
 
-**Severity:** Medium  
+**Severity:** Medium
 **Where:** `scripts/track_releases.py` -> `make_tag`
 
 **What:** The regex strips a trailing `released` or `released!` and nothing else. Proxmox also phrases announcements as `... available!` and `... (stable)`, which survive into the tag. The live release list shows all three shapes side by side: `proxmox-backup-server-4.2`, `proxmox-virtual-environment-9.2-available`, and `proxmox-datacenter-manager-1.0-stable`.
@@ -38,7 +37,7 @@ It also interacts badly with the deduplication design: because the tag is the on
 
 ## 3. Announcements that are not releases are published as releases
 
-**Severity:** Medium  
+**Severity:** Medium
 **Where:** `scripts/track_releases.py` -> `main`; the Proxmox RSS feed
 
 **What:** Every item with a title and a link becomes a GitHub Release. The Proxmox feed carries service notices and articles alongside product announcements, and both are in the published list: `Changed ip-addresses of shop.proxmox.com` and `Migrating to Proxmox VE` are Releases here, tagged `changed-ip-addresses-of-shop.proxmox.com` and `migrating-to-proxmox-ve`.
@@ -51,7 +50,7 @@ A tag like `changed-ip-addresses-of-shop.proxmox.com` is also a strange permanen
 
 ## 4. Announcements older than the feed window are never picked up
 
-**Severity:** Low  
+**Severity:** Low
 **Where:** `scripts/track_releases.py` -> `main`; `.github/workflows/track-releases.yml`
 
 **What:** The script only ever sees what the RSS feed contains at the moment it runs, and there is no stored history -- the existence of a tag is the only record. The feed holds a limited window of recent items, so anything that scrolls off between runs is never seen, and nothing backfills. The six-hourly schedule makes that unlikely rather than impossible.
@@ -59,7 +58,6 @@ A tag like `changed-ip-addresses-of-shop.proxmox.com` is also a strange permanen
 **Why it matters:** The gap is silent and permanent: a missed announcement leaves no trace anywhere, so nobody can tell the difference between a quiet period and a missed run. A GitHub Actions outage, a workflow disabled for inactivity -- which GitHub does to scheduled workflows in repositories with no recent pushes -- or a burst of announcements would each produce it. That last one is the realistic risk here, since this repository is deliberately low-activity.
 
 **Suggested fix:** Low, because six hours against a feed that moves this slowly is a wide margin. If it matters, Proxmox publishes an announcements archive page that could be scraped once to backfill, and after that the schedule alone is enough. Worth also keeping an eye on the scheduled-workflow disabling, which is the more likely way this fails.
-
 
 ---
 

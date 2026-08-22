@@ -1,0 +1,30 @@
+# Documentation configuration for proxmox-release-tracker.
+
+INHERIT: .mkdocs-shared/shared/mkdocs.base.yml
+
+site_name: 'proxmox-release-tracker'
+site_description: 'All Proxmox Server Solutions releases tracked as GitHub Releases for ease of monitoring!'
+site_author: willtheorangeguy
+site_url: https://williamvdg.me/proxmox-release-tracker/
+
+repo_url: https://github.com/willtheorangeguy/proxmox-release-tracker
+repo_name: willtheorangeguy/proxmox-release-tracker
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; willtheorangeguy
+
+nav:
+  - Home: index.md
+  - 'Usage': 'usage.md'
+  - 'Architecture': 'architecture.md'
+  - 'Development': 'development.md'
+  - 'Troubleshooting': 'troubleshooting.md'
+  - 'Roadmap': 'roadmap.md'
+  - 'proxmox-release-tracker': 'internal/known-issues.md'
+  - License: license.md
+  - Contributing: https://github.com/willtheorangeguy/.github/blob/main/CONTRIBUTING.md
+  - Code of Conduct: https://github.com/willtheorangeguy/.github/blob/main/CODE_OF_CONDUCT.md
+  - Security: https://github.com/willtheorangeguy/.github/blob/main/SECURITY.md
+
+exclude_docs: |
+  docs.instructions.md

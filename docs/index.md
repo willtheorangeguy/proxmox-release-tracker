@@ -7,7 +7,7 @@ each new entry.
 
 Watch this repository's releases and you get a notification whenever Proxmox announces something.
 
-```
+```text
 docs/
 ├── README.md            this index
 ├── usage.md             subscribing, and running the tracker by hand

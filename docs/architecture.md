@@ -2,7 +2,7 @@
 
 One Python script, one workflow, no dependencies beyond the standard library and the `gh` CLI.
 
-```
+```text
 RSS feed  ->  parse  ->  derive tag  ->  does the release exist?  --yes-->  skip
                                                  |
                                                  no

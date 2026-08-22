@@ -9,7 +9,7 @@ emails you whenever a new one appears.
 
 **By feed:** GitHub publishes releases as Atom, so any reader works:
 
-```
+```text
 https://github.com/willtheorangeguy/proxmox-release-tracker/releases.atom
 ```
 

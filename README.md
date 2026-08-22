@@ -62,7 +62,7 @@ Python 3.10+ and an authenticated `gh` CLI. It creates real releases in whatever
 
 ## Documentation
 
-Full documentation lives in [`docs/`](docs/README.md):
+Full documentation lives in [`docs/`](docs/index.md):
 [Usage](docs/usage.md) · [Architecture](docs/architecture.md) · [Development](docs/development.md) · [Troubleshooting](docs/troubleshooting.md) · [Roadmap](docs/roadmap.md)
 
 ## Support
